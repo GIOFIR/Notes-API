@@ -18,25 +18,6 @@ A RESTful API for managing personal notes using FastAPI and PostgreSQL.
 - asyncpg (async PostgreSQL driver)
 - Pydantic for data validation
 
-## Project Structure
-
-├── app/
-│ ├── exceptions/
-│ │ └── handlers.py
-│ ├── main.py
-│ ├── routes/
-│ │ ├── notes_routes.py
-│ │ └── health.py
-│ ├── schemas/
-│ │ └── notes_schemas.py
-│ └── crud.py
-├── database/
-│ ├── database.py
-│ └── migrations.py
-├── .env
-├── requirements.txt
-└── README.md
-
 
 ## Setup
 
@@ -45,7 +26,8 @@ A RESTful API for managing personal notes using FastAPI and PostgreSQL.
 git clone <your-repo-url>
 cd <repo-directory>
 
-2. Create a virtual environment
+2. **Create a virtual environment**
+
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
 venv\Scripts\activate     # Windows
