@@ -6,8 +6,6 @@ from config import DATABASE_URL
 
 logger = logging.getLogger(__name__)
 
-# DATABASE_URL = "postgresql://postgres:8652364@localhost:5432/NotesDB"
-
 db_pool: Optional[asyncpg.Pool] = None
 
 async def init_db() -> None:
