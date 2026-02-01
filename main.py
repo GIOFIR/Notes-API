@@ -7,6 +7,7 @@ from database.database import init_db, close_db
 from database.migrations import MigrationManager
 from routes.notes_routes import router as notes_router
 from routes.health import router as health_router
+from auth.router import router as auth_router
 from exceptions.handlers import register_exception_handlers
 
 logging.basicConfig(level=logging.INFO)
@@ -61,8 +62,10 @@ app.add_middleware(
 )
 
 # Register routes
-app.include_router(health_router, tags=["Health - Check"])
-app.include_router(notes_router, prefix="/notes", tags=["Notes"])
+app.include_router(auth_router)
+app.include_router(health_router)
+app.include_router(notes_router)
+
 
 
 # Register exception handlers
@@ -81,6 +84,7 @@ async def root():
         },
         "features": [
             "Personal notes management", 
+            "RESTful API design",
         ]
     }
 

@@ -2,11 +2,7 @@
 from fastapi import APIRouter
 from database.database import fetch_db_version
 
-router = APIRouter()
-
-@router.get("/")
-async def root():
-    return {"message": "Hello World"}
+router = APIRouter(tags=["Health - Check"])
 
 @router.get("/test-db")
 async def test_database():

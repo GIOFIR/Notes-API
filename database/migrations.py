@@ -32,6 +32,8 @@ class MigrationManager:
         for migration_file in all_migrations:
             if migration_file.name not in executed:
                 pending.append(migration_file)
+
+        pending = sorted(pending, key=lambda p: p.name)
         
         return pending
     

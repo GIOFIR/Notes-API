@@ -13,24 +13,19 @@ class NotePut(BaseModel):
     title: str
     description: Optional[str] = None
     completed: bool = False
+    priority: str
 
 class NotePatch(BaseModel):
-    """check later for comments"""
-    # id: int
     title: str
     description: Optional[str] = None
     completed: bool = False
-    priority: str = "medium"
-    # user_id: int = 1
-    # created_at: datetime
-    # updated_at: Optional[datetime] = None
+    priority: str 
 
 class NoteResponse(BaseModel):
     id: int
     title: str
     description: Optional[str] = None
     completed: bool = False
-    priority: str = "medium"
-    user_id: int = 1
+    priority: str 
     created_at: datetime
     updated_at: Optional[datetime] = None
