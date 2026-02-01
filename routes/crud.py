@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 from database.database import get_db_pool
 from exceptions.custom_exceptions import NoteNotFoundError, DatabaseError
 from schemas.notes_schemas import NoteResponse, NoteCreate, NotePut, NotePatch
@@ -21,21 +22,50 @@ async def get_note_by_id(note_id: int, owner_id:int):
             logger.error(f"Database error while fetching NOTE {note_id}: {str(e)}")
             raise DatabaseError(f"Failed to fetch NOTE: {str(e)}")
 
-async def get_all_notes(owner_id:int):
+async def get_all_notes(owner_id: int,
+    completed: Optional[bool] = None,
+    priority: Optional[str] = None,
+    search: Optional[str] = None):
     """Get all notes """
     pool = get_db_pool()
     async with pool.acquire() as conn:
         try:
-            rows = await conn.fetch('SELECT * FROM notes WHERE owner_id = $1', owner_id)
-            if rows is None:
-                raise NoteNotFoundError()
-            return [NoteResponse(**row) for row in rows]
-        
+            query = """
+                SELECT *
+                FROM notes
+                WHERE owner_id = $1
+            """
+            values = [owner_id]
+            param_index = 2
+
+            if completed is not None:
+                query += f" AND completed = ${param_index}"
+                values.append(completed)
+                param_index += 1
+
+            if priority is not None:
+                query += f" AND priority = ${param_index}"
+                values.append(priority)
+                param_index += 1
+
+            if search:
+                query += f"""
+                    AND (
+                        title ILIKE ${param_index}
+                        OR description ILIKE ${param_index}
+                    )
+                """
+                values.append(f"%{search}%")
+                param_index += 1
+
+            query += " ORDER BY created_at DESC"
+
+            rows = await conn.fetch(query, *values)
+            return [NoteResponse(**dict(row)) for row in rows]
+
         except Exception as e:
-            if isinstance(e, NoteNotFoundError):
-                        raise
-            logger.error(f"Database error while fetching notes : {str(e)}")
-            raise DatabaseError(f"Failed to fetch notes: {str(e)}")
+            logger.error(f"Failed to fetch notes: {str(e)}")
+            raise DatabaseError("Failed to fetch notes")
 
 async def create_new_note(note: NoteCreate, owner_id: int) -> NoteResponse:
     """Create a new note"""

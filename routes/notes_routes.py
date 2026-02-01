@@ -1,20 +1,25 @@
 # notes_routes
 import logging
-from typing import List
-from fastapi import APIRouter, HTTPException, status, Depends
+from typing import List, Optional
+from fastapi import APIRouter, HTTPException, status, Depends, Query
 from schemas.notes_schemas import NoteResponse, NoteCreate, NotePut, NotePatch
 from routes.crud import get_note_by_id, get_all_notes, create_new_note, replace_note, delete_note, update_note
 from auth.dependencies import get_current_user
-
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
 
 @router.get("/all-notes", response_model=List[NoteResponse])
-async def get_note(current_user=Depends(get_current_user)):
-    """Get a specific note"""
-    return await get_all_notes(owner_id=current_user["id"])
+async def get_note(completed: Optional[bool] = Query(None),
+    priority: Optional[str] = Query(None),
+    search: Optional[str] = Query(None),
+    current_user=Depends(get_current_user)):
+    """Get a all notes - accepts queries"""
+    return await get_all_notes(owner_id=current_user["id"],
+        completed=completed,
+        priority=priority,
+        search=search)
 
 
 @router.get("/{note_id}", response_model=NoteResponse)

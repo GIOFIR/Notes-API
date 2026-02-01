@@ -104,6 +104,13 @@ Authorization: Bearer <JWT>
 ```
 Swagger UI supports OAuth2 Password Flow via the Authorize button.
 
+### Filtering & Search Examples
+
+GET /notes?completed=true  
+GET /notes?priority=high  
+GET /notes?search=meeting  
+GET /notes?completed=false&priority=medium
+
 ---
 
 API Endpoints:
