@@ -14,7 +14,7 @@ async def get_note_by_id(note_id: int, owner_id:int):
             row = await conn.fetchrow('SELECT * FROM notes WHERE id = $1 AND owner_id = $2', note_id, owner_id)
             if row is None:
                 raise NoteNotFoundError(note_id)
-            return NoteResponse(**row)
+            return NoteResponse(**dict(row))
         
         except Exception as e:
             if isinstance(e, NoteNotFoundError):
@@ -77,7 +77,7 @@ async def create_new_note(note: NoteCreate, owner_id: int) -> NoteResponse:
                 VALUES ($1, $2, $3, $4)
                 RETURNING id, title, description, completed, priority, owner_id, created_at
             ''', note.title, note.description, owner_id, note.priority)
-            return NoteResponse(**row)
+            return NoteResponse(**dict(row))
         except Exception as e:
             logger.error(f"Database error while creating note for user: {str(e)}")
             raise DatabaseError(f"Failed to create note: {str(e)}")
@@ -100,7 +100,7 @@ async def replace_note(note_id: int, data: NotePut, owner_id:int) -> NoteRespons
                 RETURNING id, title, description, completed, priority, owner_id, created_at
                 ''',
                 data.title, data.description, data.completed, data.priority, note_id, owner_id)
-            return NoteResponse(**updated_row)
+            return NoteResponse(**dict(updated_row))
         except Exception as e:
             if isinstance(e, NoteNotFoundError):
                 raise
@@ -134,7 +134,7 @@ async def update_note(note_id: int, patch: NotePatch, owner_id:int) -> NoteRespo
                 param_count += 1
 
             if not update_fields:
-                return NoteResponse(**existing)
+                return existing
 
             values.extend([note_id, owner_id])
             query = f"""

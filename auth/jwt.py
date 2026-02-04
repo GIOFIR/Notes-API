@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict
-
 from jose import jwt, JWTError
 from config import JWT_SECRET_KEY, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
