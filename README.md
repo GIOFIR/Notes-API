@@ -1,6 +1,20 @@
-# Notes API
+# Notes API (Task Manager Backend)
 
-A secure RESTful API for managing personal notes, built with FastAPI and PostgreSQL, featuring JWT-based authentication and owner-based authorization.
+A production-style RESTful API for managing personal notes and tasks.
+Built as a backend portfolio project using FastAPI and PostgreSQL,
+demonstrating authentication, authorization, database design, and clean architecture.
+
+## Project Goals
+
+This project was built to demonstrate:
+
+- Backend API design with FastAPI
+- Secure authentication using JWT
+- Owner-based authorization
+- Async PostgreSQL access
+- SQL-based migrations
+- Clean separation of concerns
+- Testing, linting, and formatting best practices
 
 ## Features
 
@@ -15,7 +29,7 @@ A secure RESTful API for managing personal notes, built with FastAPI and Postgre
 ### Authorization
 
 Owner-based authorization: Each user can access only their own notes
-Unauthorized access attempts return safe 404 responses (no data leakage)
+Unauthorized access attempts do not leak data and return safe error responses.
 
 ### Notes Management
 
@@ -45,15 +59,25 @@ Full replacement via PUT
 - Pydantic v2
 - JWT (python-jose)
 - bcrypt / passlib
-
+- Docker & Docker Compose
+- pytest
+- Black
+- Ruff
 
 ## Setup
-
+### Option 1: Run with Docker (Recommended)
+```bash
+git clone <your-repo-url>
+cd <repo-directory>
+docker compose up --build
+```
+### Option 2: Run Locally (Without Docker)
 1. **Clone the repository**
 ```bash
 git clone <your-repo-url>
 cd <repo-directory>
 ```
+
 2. **Create a virtual environment**
 ```bash
 python -m venv venv
@@ -77,10 +101,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES=60
 python database/migrations.py migrate
 ```
 
----- Running the API ----
+## Running the API
 ```bash
 uvicorn main:app --reload
 ```
+
 The API will run on: http://127.0.0.1:8000
 
 Swagger docs: http://127.0.0.1:8000/docs
@@ -111,16 +136,30 @@ GET /notes?priority=high
 GET /notes?search=meeting  
 GET /notes?completed=false&priority=medium
 
+## Testing
+
+Run tests using pytest:
+### With Docker
+```bash
+docker compose exec api pytest -q
+```
+```md
+### Without Docker
+Make sure PostgreSQL is running locally and environment variables are set.
+```bash
+pytest 
+```
+
 ---
 
 API Endpoints:
 Notes
-Method	Endpoint	Description
-GET     /notes/all-notes	Get all user notes
+Method	Endpoint	        Description
+GET     /notes/all	      Get all user notes
 GET     /notes/{note_id}	Get a specific note
-POST	/notes/	            Create a new note
+POST	  /notes/	          Create a new note
 PUT	    /notes/{note_id}	Replace an existing note
-PATCH	/notes/{note_id}	Update an existing note partially
+PATCH	  /notes/{note_id}	Update an existing note partially
 DELETE	/notes/{note_id}	Delete a note
 GET	    /test-db	        Check database connection
 
@@ -132,6 +171,15 @@ Exception Handling:
 422 Validation error
 500 Internal Server Error: When there is a database error.
 
+## Project Structure 
+├── auth/ # Authentication & JWT
+├── routes/ # API routers
+├── database/ # DB pool & migrations
+├── schemas/ # Pydantic schemas
+├── exceptions/ # Custom exceptions & handlers
+├── tests/ # pytest tests
+├── main.py
+└── docker-compose.yml
 
 ## License
 
