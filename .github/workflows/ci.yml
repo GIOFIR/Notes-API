@@ -27,7 +27,7 @@ jobs:
         run: docker compose build
 
       - name: Ruff (lint)
-        run: docker compose run --rm api ruff .
+        run: docker compose run --rm api ruff check . --output-format=github
 
       - name: Pytest
         run: docker compose run --rm api pytest -q
