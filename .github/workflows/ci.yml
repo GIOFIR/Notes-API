@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create .env for CI
+        run: |
+          cat > .env << 'EOF'
+          DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+          JWT_SECRET_KEY=ci-secret-key
+          JWT_ALGORITHM=HS256
+          ACCESS_TOKEN_EXPIRE_MINUTES=60
+          EOF
+
+      - name: Build containers
+        run: docker compose build
+
+      - name: Ruff (lint)
+        run: docker compose run --rm api ruff .
+
+      - name: Pytest
+        run: docker compose run --rm api pytest -q
