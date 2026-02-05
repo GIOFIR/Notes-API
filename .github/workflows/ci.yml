@@ -30,6 +30,9 @@ jobs:
       - name: Create .env for CI
         run: |
           cat > .env << 'EOF'
+          POSTGRES_USER=postgres
+          POSTGRES_PASSWORD=postgres
+          POSTGRES_DB=postgres
           DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
           JWT_SECRET_KEY=ci-secret-key
           JWT_ALGORITHM=HS256
