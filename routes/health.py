@@ -1,6 +1,8 @@
 import logging
+
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
+
 from database.database import fetch_db_version
 
 logger = logging.getLogger(__name__)

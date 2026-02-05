@@ -1,10 +1,10 @@
-from fastapi import HTTPException, status
 from asyncpg import Pool
+from fastapi import HTTPException, status
 
-from auth.users_handle import get_user_by_email, create_user
-from auth.security import hash_password, verify_password
 from auth.jwt import create_access_token
 from auth.schemas import RegisterRequest, TokenResponse
+from auth.security import hash_password, verify_password
+from auth.users_handle import create_user, get_user_by_email
 
 
 async def register_user(pool: Pool, payload: RegisterRequest):

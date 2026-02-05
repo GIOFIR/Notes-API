@@ -1,12 +1,12 @@
+from asyncpg import Pool
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from asyncpg import Pool
-from database.database import get_db_pool
-from auth.jwt import decode_access_token
-from auth.users_handle import get_user_by_id
-from auth.schemas import TokenData
 from jose import JWTError
 
+from auth.jwt import decode_access_token
+from auth.schemas import TokenData
+from auth.users_handle import get_user_by_id
+from database.database import get_db_pool
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 

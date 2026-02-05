@@ -1,7 +1,8 @@
 import os
 import uuid
-import pytest
+
 import httpx
+import pytest
 
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 

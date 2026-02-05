@@ -1,5 +1,7 @@
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
+
 from asyncpg import Pool
+
 
 async def get_user_by_email(pool: Pool, email: str) -> Optional[Dict[str, Any]]:
     query = """

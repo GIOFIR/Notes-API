@@ -1,7 +1,9 @@
 # notes_schemas
-from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel
+
 
 # Simple schemas for notes
 class NoteCreate(BaseModel):

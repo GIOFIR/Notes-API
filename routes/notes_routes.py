@@ -1,17 +1,18 @@
 import logging
 from typing import List, Optional
+
 from fastapi import APIRouter, Depends, Query
 
-from schemas.notes_schemas import NoteResponse, NoteCreate, NotePut, NotePatch
 from auth.dependencies import get_current_user
 from routes.notes_service import (
-    list_notes_service,
-    get_note_service,
     create_note_service,
-    put_note_service,
-    patch_note_service,
     delete_note_service,
+    get_note_service,
+    list_notes_service,
+    patch_note_service,
+    put_note_service,
 )
+from schemas.notes_schemas import NoteCreate, NotePatch, NotePut, NoteResponse
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/notes", tags=["Notes"])

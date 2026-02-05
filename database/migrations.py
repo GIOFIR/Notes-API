@@ -2,7 +2,9 @@
 import asyncio
 from pathlib import Path
 from typing import List
+
 from database.database import get_db_pool
+
 
 class MigrationManager:
     def __init__(self):

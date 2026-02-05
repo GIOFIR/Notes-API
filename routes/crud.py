@@ -1,8 +1,9 @@
 import logging
 from typing import Optional
+
 from database.database import get_db_pool
-from exceptions.custom_exceptions import NoteNotFoundError, DatabaseError
-from schemas.notes_schemas import NoteResponse, NoteCreate, NotePut, NotePatch
+from exceptions.custom_exceptions import DatabaseError, NoteNotFoundError
+from schemas.notes_schemas import NoteCreate, NotePatch, NotePut, NoteResponse
 
 logger = logging.getLogger(__name__)
 

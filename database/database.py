@@ -1,7 +1,9 @@
 # database
-import asyncpg
 import logging
 from typing import Optional
+
+import asyncpg
+
 from config import DATABASE_URL
 
 logger = logging.getLogger(__name__)

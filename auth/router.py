@@ -1,10 +1,10 @@
+from asyncpg import Pool
 from fastapi import APIRouter, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
-from asyncpg import Pool
 
-from database.database import get_db_pool
 from auth.schemas import RegisterRequest, RegisterResponse, TokenResponse
-from auth.service import register_user, login_user
+from auth.service import login_user, register_user
+from database.database import get_db_pool
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

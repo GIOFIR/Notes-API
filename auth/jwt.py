@@ -1,7 +1,10 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict
-from jose import jwt, JWTError
-from config import JWT_SECRET_KEY, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+
+from jose import JWTError, jwt
+
+from config import ACCESS_TOKEN_EXPIRE_MINUTES, JWT_ALGORITHM, JWT_SECRET_KEY
+
 
 def create_access_token(subject: str) -> str:
     expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

@@ -1,7 +1,9 @@
 import logging
+
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from exceptions.custom_exceptions import NoteNotFoundError, DatabaseError
+
+from exceptions.custom_exceptions import DatabaseError, NoteNotFoundError
 
 logger = logging.getLogger(__name__)
 

@@ -1,14 +1,15 @@
 import logging
 from typing import Optional
-from schemas.notes_schemas import NoteCreate, NotePut, NotePatch
+
 from routes.crud import (
-    get_note_by_id,
-    get_all_notes,
     create_new_note,
+    delete_note,
+    get_all_notes,
+    get_note_by_id,
     replace_note,
     update_note,
-    delete_note,
 )
+from schemas.notes_schemas import NoteCreate, NotePatch, NotePut
 
 logger = logging.getLogger(__name__)
 

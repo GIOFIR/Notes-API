@@ -1,14 +1,16 @@
 # main
 import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
-from database.database import init_db, close_db
-from database.migrations import MigrationManager
-from routes.notes_routes import router as notes_router
-from routes.health import router as health_router
+
 from auth.router import router as auth_router
+from database.database import close_db, init_db
+from database.migrations import MigrationManager
 from exceptions.handlers import register_exception_handlers
+from routes.health import router as health_router
+from routes.notes_routes import router as notes_router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
