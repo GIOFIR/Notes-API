@@ -2,9 +2,11 @@
 # Virtual environment
 # -----------------------
 venv/
-.env/
 __pycache__/
 .env
+*.env
+.env.*
+
 
 # -----------------------
 # Python compiled files
@@ -42,4 +44,10 @@ Thumbs.db
 # FastAPI / Web project
 # -----------------------
 instance/
-*.db
+
+# -----------------------
+# Cache
+# -----------------------
+.pytest_cache/
+.ruff_cache/
+

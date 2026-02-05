@@ -89,12 +89,19 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 ```
 4. Setup .env file
+Copy the example environment file and adjust values as needed:
+
+```bash
+cp .env.example .env
+```
+
 ```bash
 DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database_name>
 
 JWT_SECRET_KEY=<your-long-random-secret>
 JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=60
+
 ```
 5. Run database migrations
 ```bash
@@ -114,7 +121,9 @@ Health check: http://127.0.0.1:8000/test-db
 
 ### Authentication Flow
 Register : POST /auth/register
+
 Login : POST /auth/login
+
 Returns : 
 ```bash
 {
@@ -143,7 +152,7 @@ Run tests using pytest:
 ```bash
 docker compose exec api pytest -q
 ```
-```md
+
 ### Without Docker
 Make sure PostgreSQL is running locally and environment variables are set.
 ```bash
