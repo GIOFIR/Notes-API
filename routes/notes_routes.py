@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
 
-@router.get("/notes", response_model=List[NoteResponse])
+@router.get("/all", response_model=List[NoteResponse])
 async def list_notes(
     completed: Optional[bool] = Query(None),
     priority: Optional[str] = Query(None),
