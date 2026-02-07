@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   lint-and-test:
@@ -39,8 +39,31 @@ jobs:
           ACCESS_TOKEN_EXPIRE_MINUTES=60
           EOF
 
-      - name: Build containers
-        run: docker compose build
+      - name: Start services
+        run: docker compose up -d --build
 
-      - name: Pytest (Docker)
-        run: docker compose run --rm api pytest -q
+      - name: Wait for API
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:8000/test-db > /dev/null; then
+              echo "API is up"
+              exit 0
+            fi
+            echo "Waiting for API..."
+            sleep 2
+          done
+          echo "API did not become ready in time"
+          exit 1
+
+      - name: Pytest
+        run: docker compose exec -T api pytest -q
+
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          docker compose logs api
+          docker compose logs db
+
+      - name: Shutdown
+        if: always()
+        run: docker compose down -v
